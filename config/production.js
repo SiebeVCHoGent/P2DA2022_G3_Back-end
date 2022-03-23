@@ -1,6 +1,7 @@
 module.exports = {
+  env: 'production',
   log: {
-    level: 'silly',
+    level: 'production',
     disabled: false,
   },
   cors: {
@@ -9,11 +10,11 @@ module.exports = {
   },
   database: {
     client: 'mysql2',
-    host: 'remotemysql.com',
+    host: '',
     port: 3306,
-    name: 'vIdl59iFhl',
-    username: 'vIdl59iFhl',
-    password: 'cZ5uzlQKAe',
+    name: '',
+    username: '',
+    password: '',
   },
   auth: {
     argon: {
@@ -23,10 +24,10 @@ module.exports = {
       memoryCost: 2 ** 17, //1024bits
     },
     jwt: {
-      secret: 'microwaverefridgerator',
+      secret: '',
       expirationInterval: 60 * 60, //1u
-      issuer: 'dendermondsebc.be',
-      audience: 'dendermondsebc.be',
+      issuer: '',
+      audience: '',
     },
   },
 };

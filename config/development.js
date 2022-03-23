@@ -1,4 +1,5 @@
 module.exports = {
+  env: 'development',
     log: {
       level: 'silly',
       disabled: false,
@@ -11,9 +12,9 @@ module.exports = {
       client: 'mysql2',
       host: 'localhost',
       port: 3306,
-      name: 'dendermondsebc',
-      username: 'root',
-      password: 'Jarnob2002',
+      name: '',
+      username: '',
+      password: '',
     },
     auth: {
       argon: {
@@ -23,10 +24,10 @@ module.exports = {
         memoryCost: 2 ** 17, //1024bits
       },
       jwt: {
-        secret: 'microwaverefridgerator',
+        secret: '',
         expirationInterval: 60 * 60, //1u
-        issuer: 'dendermondsebc.be',
-        audience: 'dendermondsebc.be',
+        issuer: '',
+        audience: '',
       },
     },
   };

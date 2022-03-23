@@ -10,14 +10,13 @@ const { initializeData, shutDownData } = require("./data");
 const installRest = require('./rest');
 //const { hashPassword} = require('./core/password');
 
-const NODE_ENV = 'development';
+    const NODE_ENV = config.get("env");
     const CORS_ORIGINS = config.get("cors.origins");
     const CORS_MAX_AGE = config.get("cors.maxAge");
     const LOG_LEVEL = config.get("log.level");
     const LOG_DISABLED = config.get("log.disabled");
 
 module.exports =  async function createServer() {
-    
     initializeLogger({
         level: LOG_LEVEL,
         disabled: LOG_DISABLED,

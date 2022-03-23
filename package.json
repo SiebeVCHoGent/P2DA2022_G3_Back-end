@@ -4,7 +4,7 @@
   "license":"UNLICENSED",
   "scripts": {
     "watch": "npx env-cmd nodemon src/index.js",
-    "start":"node src/index.js"
+    "start":"npx env-cmd node src/index.js"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
