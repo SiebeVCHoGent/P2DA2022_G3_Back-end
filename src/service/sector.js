@@ -10,7 +10,8 @@ const debugLog = (message, meta = {}) => {
 const getById = async (id) => {
   debugLog("Fetching sector", { id });
   const e = await sector.getById(id)
-  return e[0][0]
+  if (e[0].length === 0) return {sector: null}
+  return {sector: e[0][0]}
 };
 
 module.exports = {
