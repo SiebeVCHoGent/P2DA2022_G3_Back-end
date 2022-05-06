@@ -49,67 +49,41 @@ const checkRole = (role, roles) => {
   }
 };
 
-const getAll = async () => {
-  debugLog('Fetching all accounts');
-  return await account.getAll();
-};
-const getById = async (a) => {
-  debugLog('Getting account', { a });
-  const e = await account.getById(a);
- 
-  if (!e[0]) {
-    throw ServiceError.notFound(`User ${a} was not found`);
-  }
-  return makeExposedUser(e[0]);
-};
-
-const login = async ({ mail, wachtwoord }) => {
-  const sp = await account.getByMail(mail);
+const login = async ({ email, ww }) => {
+  const sp = await account.getByMail(email);
   if (!sp || sp.length === 0) {
     throw ServiceError.unauthorized('Given mail and password do not match');
   }
   const user = sp[0];
-  const passwordValid = await verifyPassword(wachtwoord, user.wachtwoord);
+  const passwordValid = await verifyPassword(ww, user.wachtwoord);
   if (!passwordValid) {
     throw ServiceError.unauthorized('Given mail and password do not match');
   }
   return loginData(user);
 };
-const create = async ({ mail, wachtwoord, naam, geboortedatum, groep }) => {
+
+const create = async ({ voornaam, achternaam, email, ww}) => {
   const id = uuid.v4();
-  const wachtwoordHash = await hashPassword(wachtwoord);
-  debugLog(`registering new account ${id}`, { mail });
-  const test = await account.getByMail(mail);
+  const wachtwoordHash = await hashPassword(ww);
+  debugLog(`registering new account ${id}`, { email });
+  const test = await account.getByMail(email);
   if (test.length > 0) throw ServiceError.forbidden('Duplicate mail');
+  
   const user = await account.create(id, {
-    mail,
+    voornaam,
+    achternaam,
+    email,
     wachtwoordHash,
-    naam,
-    geboortedatum,
-    groep,
-    roles: JSON.stringify([Roles.SPELER]),
+    roles: JSON.stringify([Roles.STANDAARD]),
   });
-  return await loginData(user);
+  
+  return loginData(user[0]);
 };
-const updateById = async (a, { wachtwoord, naam, geboortedatum, groep }) => {
-  debugLog('Updating user', { a });
-  wachtwoord = await hashPassword(wachtwoord);
-  const e = await account.updateById(a, { wachtwoord, naam, geboortedatum, groep });
-  if (!e) throw ServiceError.notFound(`user ${a} not found`, { a });
-  return getById(a);
-};
-const deleteById = async (a) => {
-  debugLog('Deleting speler', { a });
-  const del = await account.deleteById(a);
-  if (!del) throw ServiceError.notFound('Account does not exist');
-};
+
+
 module.exports = {
-  getAll,
-  getById,
   login,
   create,
-  updateById,
-  deleteById,
   checkSession,
   checkRole,
 };

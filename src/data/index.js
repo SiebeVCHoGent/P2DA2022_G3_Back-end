@@ -65,9 +65,11 @@ function getKnex() {
   if (!knexInstance) throw new Error("Initialize connection first");
   return knexInstance;
 }
+
 const tables = Object.freeze({
-  account: "lid",
+  account: "user",
 });
+
 async function shutDownData() {
   getLogger().info("Shutting down database connection");
   await knexInstance.destroy();
