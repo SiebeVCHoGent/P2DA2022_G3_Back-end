@@ -52,12 +52,12 @@ const checkRole = (role, roles) => {
 const login = async ({ email, ww }) => {
   const sp = await account.getByMail(email);
   if (!sp || sp.length === 0) {
-    throw ServiceError.unauthorized('Given mail and password do not match');
+    throw ServiceError.unauthorized('Email en wachtwoord komen niet overeen');
   }
   const user = sp[0];
   const passwordValid = await verifyPassword(ww, user.wachtwoord);
   if (!passwordValid) {
-    throw ServiceError.unauthorized('Given mail and password do not match');
+    throw ServiceError.unauthorized('Email en wachtwoord komen niet overeen');
   }
   return loginData(user);
 };

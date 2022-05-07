@@ -9,13 +9,10 @@ const JWT_SECRET = config.get("auth.jwt.secret");
 const JWT_EXPERATION_INTERVAL = config.get("auth.jwt.expirationInterval");
 
 module.exports.generateJWT = (user) => {
-  console.log(user)
   const tokenData = {
     userId: user.id,
     roles: user.roles,
   };
-
-  console.log(tokenData)
 
   const signOptions = {
     audience: JWT_AUDIENCE,
