@@ -36,7 +36,7 @@ const checkSession = async (header) => {
       authToken,
     };
   } catch (error) {
-    const logger = getChildLogger('speler-service');
+    const logger = getChildLogger('account-service');
     logger.error(error.message, { error });
     throw ServiceError.unauthorized(error.message);
   }

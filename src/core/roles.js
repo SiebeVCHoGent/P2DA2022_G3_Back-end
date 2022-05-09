@@ -1,6 +1,4 @@
 module.exports = Object.freeze({
-    LID: 'lid',
-    ADMIN: 'admin',
-    TRAINER: 'trainer',
-    STANDAARD: 'standaard'
-  });
+  ADMIN: "admin",
+  STANDAARD: "standaard",
+});

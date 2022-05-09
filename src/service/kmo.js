@@ -10,7 +10,7 @@ const debugLog = (message, meta = {}) => {
 const search = async (str) => {
   debugLog("Searching for kmo");
   const e = await kmo.search(str);
-  return { kmo: e[0] };
+  return { kmo: e };
 };
 
 module.exports = {

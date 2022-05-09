@@ -68,6 +68,13 @@ function getKnex() {
 
 const tables = Object.freeze({
   account: "user",
+  sector:'sector',
+  kmo:'kmo',
+  gemeente:'gemeente',
+  coding_tree: 'Coding_Tree',
+  duurzaamheidsframework: 'duurzaamheidsframework',
+  duurzaamheidsrapporten: 'duurzaamheidsrapport',
+  jaarverslagen: 'jaarverslagen',
 });
 
 async function shutDownData() {
