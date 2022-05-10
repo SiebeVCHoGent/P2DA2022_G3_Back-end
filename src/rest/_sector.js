@@ -14,11 +14,21 @@ getById.validateScheme = {
     }
 }
 
+const getBest = async (ctx)=>{
+    ctx.body = await sector.getBest(ctx.params.id)
+}
+getBest.validateScheme = {
+    params: {
+        id: Joi.number()
+    }
+}
+
 module.exports = (app)=>{
     const router = new Router({
         prefix: "/sector",
       });
 
+      router.get('/best/:id',validate(getBest.validateScheme),getBest)
       router.get('/:id',validate(getById.validateScheme),getById)
 
     app.use(router.routes()).use(router.allowedMethods());
