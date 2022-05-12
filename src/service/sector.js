@@ -13,6 +13,11 @@ const getById = async (id) => {
   if (sectors.length === 0) return { sector: null };
   return { sector: sectors[0] };
 };
+const getAll = async ()=>{
+  debugLog('Fetching all sectors')
+  const sectors = await sector.getAll()
+  return {sector: sectors}
+}
 
 const getBest = async (id) => {
   debugLog("Fetching best of sector");
@@ -20,8 +25,15 @@ const getBest = async (id) => {
   if (sector.length === 0) return { kmos: null };
   return { kmos: sectors };
 };
+const bestSector = async ()=>{
+  debugLog('Getting best average')
+  const sectors = await sector.bestSector()
+  return sectors[0]
+}
 
 module.exports = {
   getById,
   getBest,
+  getAll,
+  bestSector
 };
