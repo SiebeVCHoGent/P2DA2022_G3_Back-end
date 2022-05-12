@@ -48,7 +48,7 @@ const bestOfSector = async (id) => {
 };
 
 const bestSector = async ()=>{
-  return await getKnex().raw('SELECT sectorId, s.naam, AVG(Score) FROM kmo k JOIN Coding_Tree c ON c.ondernemingsnummer = k.ondernemingsnummer JOIN sector s ON s.id = k.sectorid GROUP BY sectorid ORDER BY AVG(Score) DESC')
+  return await getKnex().raw('SELECT sectorId, s.naam, AVG(Score) as average FROM kmo k JOIN Coding_Tree c ON c.ondernemingsnummer = k.ondernemingsnummer JOIN sector s ON s.id = k.sectorid GROUP BY sectorid ORDER BY AVG(Score) DESC LIMIT 20')
 }
 
 module.exports = {
