@@ -36,7 +36,7 @@ module.exports = (app) => {
   });
 
   router.get("/", requireAuth, getAll);
-  router.get("/best", requireAuth, bestSector);
+  router.get("/best",requireAuth, bestSector);
   router.get(
     "/best/:id",
     requireAuth,

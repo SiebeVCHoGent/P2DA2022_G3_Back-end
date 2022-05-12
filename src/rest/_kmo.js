@@ -19,7 +19,7 @@ module.exports = (app)=>{
         prefix: "/kmo",
       });
 
-      router.get('/:id',validate(search.validateScheme),search)
+      router.get('/:id',requireAuth,validate(search.validateScheme),search)
 
     app.use(router.routes()).use(router.allowedMethods());
 }

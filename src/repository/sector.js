@@ -5,9 +5,9 @@ const getById = async (id) => {
   return await getKnex()(tables.sector).select().where("id", id);
 };
 
-const getAll = async ()=>{
-  return await getKnex()(tables.sector).select()
-}
+const getAll = async () => {
+  return await getKnex()(tables.sector).select();
+};
 
 const bestOfSector = async (id) => {
   return await getKnex()(tables.sector)
@@ -47,13 +47,24 @@ const bestOfSector = async (id) => {
     .limit(10);
 };
 
-const bestSector = async ()=>{
-  return await getKnex().raw('SELECT sectorId, s.naam, AVG(Score) as average FROM kmo k JOIN Coding_Tree c ON c.ondernemingsnummer = k.ondernemingsnummer JOIN sector s ON s.id = k.sectorid GROUP BY sectorid ORDER BY AVG(Score) DESC LIMIT 20')
-}
+const bestSector = async () => {
+  
+  return await getKnex()(tables.kmo)
+    .join(tables.sector, `${tables.sector}.id`, "=", `${tables.kmo}.sectorid`)
+    .leftJoin(
+      tables.coding_tree,
+      `${tables.kmo}.ondernemingsnummer`,
+      "=",
+      `${tables.coding_tree}.ondernemingsnummer`
+    )
+    .select('sectorId',`${tables.sector}.naam`,getKnex().raw(`AVG(Score) as average`))
+    .groupBy("sectorid")
+    .orderBy(getKnex().raw('AVG(Score)'),'desc')
+};
 
 module.exports = {
   getById,
   bestOfSector,
   getAll,
-  bestSector
+  bestSector,
 };

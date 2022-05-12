@@ -28,7 +28,7 @@ const getBest = async (id) => {
 const bestSector = async ()=>{
   debugLog('Getting best average')
   const sectors = await sector.bestSector()
-  return sectors[0]
+  return {sector: sectors}
 }
 
 module.exports = {
