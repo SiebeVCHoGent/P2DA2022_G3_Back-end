@@ -30,10 +30,13 @@ const bestOfSector = async (id) => {
       "=",
       `${tables.jaarverslagen}.ondernemingsnummer`
     )
+    .join(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
     .select(
       `${tables.kmo}.*`,
       { sector: `${tables.sector}.naam` },
       { gemeente: `${tables.gemeente}.naam` },
+      {hoofdsector : `${tables.hoofdsector}.naam`},
+      "hoofdsectorId",
       "Tree",
       "Score",
       "Percentiel",
@@ -57,7 +60,8 @@ const bestSector = async () => {
       "=",
       `${tables.coding_tree}.ondernemingsnummer`
     )
-    .select('sectorId',`${tables.sector}.naam`,getKnex().raw(`AVG(Score) as average`))
+    .join(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
+    .select('sectorId',`${tables.sector}.naam`,`${tables.hoofdsector}.naam`,"hoofdsectorId",getKnex().raw(`AVG(Score) as average`))
     .groupBy("sectorid")
     .orderBy(getKnex().raw('AVG(Score)'),'desc')
 };

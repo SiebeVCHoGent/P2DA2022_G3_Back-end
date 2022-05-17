@@ -43,7 +43,7 @@ module.exports = (app) => {
   router.get("/best", requireAuth, bestSector);
   router.get(
     "/best/:id",
-
+    requireAuth,
     validate(getBest.validateScheme),
     getBest
   );
