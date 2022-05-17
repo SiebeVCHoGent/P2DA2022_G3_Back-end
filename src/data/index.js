@@ -75,6 +75,7 @@ const tables = Object.freeze({
   duurzaamheidsframework: 'duurzaamheidsframework',
   duurzaamheidsrapporten: 'duurzaamheidsrapport',
   jaarverslagen: 'jaarverslagen',
+  hoofdsector: 'hoofdsector'
 });
 
 async function shutDownData() {

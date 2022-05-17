@@ -4,7 +4,7 @@ const { getChildLogger } = require("../core/logging");
 const search = async (str) => {
   return await getKnex()(tables.kmo)
     .join(tables.sector, `${tables.kmo}.sectorid`, "=", `${tables.sector}.id`)
-    .join(
+    .leftJoin(
       tables.gemeente,
       `${tables.kmo}.postcode`,
       "=",
@@ -22,10 +22,13 @@ const search = async (str) => {
       "=",
       `${tables.jaarverslagen}.ondernemingsnummer`
     )
+    .leftJoin(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
     .select(
       "kmo.*",
       { sector: `${tables.sector}.naam` },
+      {hoofdsector: `${tables.hoofdsector}.naam`},
       { gemeente: `${tables.gemeente}.naam` },
+      "hoofdsectorId",
       "Tree",
       "Score",
       "Percentiel",
