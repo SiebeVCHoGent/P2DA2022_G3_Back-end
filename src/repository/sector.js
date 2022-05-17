@@ -45,7 +45,7 @@ const bestOfSector = async (id) => {
       "link",
       "boekjaar"
     )
-    .where("id", id)
+    .where("sector.id", id)
     .orderBy("Score", "desc")
     .limit(10);
 };
