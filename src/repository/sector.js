@@ -54,14 +54,9 @@ const bestSector = async () => {
   
   return await getKnex()(tables.kmo)
     .join(tables.sector, `${tables.sector}.id`, "=", `${tables.kmo}.sectorid`)
-    .leftJoin(
-      tables.coding_tree,
-      `${tables.kmo}.ondernemingsnummer`,
-      "=",
-      `${tables.coding_tree}.ondernemingsnummer`
-    )
+    .leftJoin(tables.coding_tree, `${tables.kmo}.ondernemingsnummer`, "=", `${tables.coding_tree}.ondernemingsnummer`)
     .join(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
-    .select('sectorId',`${tables.sector}.naam`,`${tables.hoofdsector}.naam`,"hoofdsectorId",getKnex().raw(`AVG(Score) as average`))
+    .select('sectorId',`${tables.sector}.naam`,`${tables.hoofdsector}.naam AS hoofdsectornaam`,"hoofdsectorId",getKnex().raw(`AVG(Score) as average`))
     .groupBy("sectorid")
     .orderBy(getKnex().raw('AVG(Score)'),'desc')
 };
