@@ -1,4 +1,5 @@
 const winston = require('winston');
+require('winston-daily-rotate-file')
 const {
   combine, timestamp, colorize, printf, json,
 } = winston.format;
@@ -63,7 +64,6 @@ const initializeLogger = ({
   disabled,
   isProduction,
   defaultMeta = {},
-  extraTransports = [],
 }) => {
   logger = winston.createLogger({
     level,
@@ -73,8 +73,14 @@ const initializeLogger = ({
       new winston.transports.Console({
         silent: disabled,
       }),
-      ...extraTransports,
+      new winston.transports.DailyRotateFile({
+        filename: './logs/log',
+        datePattern: 'yyyy-MM-DD',
+        prepend: true,
+        silent: disabled,
+      })
     ],
+    
   });
 
   logger.info(` Logger initialized with minimum log level ${level}`);
