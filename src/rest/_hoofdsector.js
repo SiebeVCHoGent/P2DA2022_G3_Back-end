@@ -47,7 +47,7 @@ module.exports = (app) => {
     validate(getBest.validateScheme),
     getBest
   );
-  router.get("/:id", validate(getById.validateScheme), getById);
+  router.get("/:id", requireAuth, validate(getById.validateScheme), getById);
 
   app.use(router.routes()).use(router.allowedMethods());
 };
