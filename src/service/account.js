@@ -11,7 +11,7 @@ const debugLog = (message, meta = {}) => {
   this.logger.debug(message, meta);
 };
 
-const makeExposedUser = ({ wachtwoord, ...user }) => user;
+const makeExposedUser = ({ password, ...user }) => user;
 const loginData = async (user) => {
   const token = await generateJWT(user);
   return {
@@ -55,7 +55,7 @@ const login = async ({ email, ww }) => {
     throw ServiceError.unauthorized('Email en wachtwoord komen niet overeen');
   }
   const user = sp[0];
-  const passwordValid = await verifyPassword(ww, user.wachtwoord);
+  const passwordValid = await verifyPassword(ww, user.password);
   if (!passwordValid) {
     throw ServiceError.unauthorized('Email en wachtwoord komen niet overeen');
   }

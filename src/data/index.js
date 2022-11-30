@@ -71,11 +71,16 @@ const tables = Object.freeze({
   sector:'sector',
   kmo:'kmo',
   gemeente:'gemeente',
-  coding_tree: 'Coding_Tree',
-  duurzaamheidsframework: 'duurzaamheidsframework',
-  duurzaamheidsrapporten: 'duurzaamheidsrapport',
-  jaarverslagen: 'jaarverslagen',
-  hoofdsector: 'hoofdsector'
+  //coding_tree: 'Coding_Tree',
+  //duurzaamheidsframework: 'duurzaamheidsframework',
+  //duurzaamheidsrapporten: 'duurzaamheidsrapport',
+  jaarverslagen: 'jaarverslag',
+  //hoofdsector: 'hoofdsector',
+  zoekterm: 'searchterm',
+  verslag: 'verslag',
+  website: 'website',
+  woord: 'woord',
+  zoektermscores: 'zoektermscores',
 });
 
 async function shutDownData() {

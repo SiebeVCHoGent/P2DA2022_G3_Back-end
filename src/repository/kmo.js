@@ -3,39 +3,30 @@ const { getChildLogger } = require("../core/logging");
 
 const search = async (str) => {
   return await getKnex()(tables.kmo)
-    .join(tables.sector, `${tables.kmo}.sectorid`, "=", `${tables.sector}.id`)
+    .join(tables.sector, `${tables.kmo}.sector`, "=", `${tables.sector}.code`)
     .leftJoin(
       tables.gemeente,
       `${tables.kmo}.postcode`,
       "=",
       `${tables.gemeente}.postcode`
     )
-    .leftJoin(
-      tables.coding_tree,
-      `${tables.kmo}.ondernemingsnummer`,
-      "=",
-      `${tables.coding_tree}.ondernemingsnummer`
-    )
+    .leftJoin(tables.verslag, `${tables.kmo}.ondernemingsnummer`, "=", `${tables.verslag}.ondernemingsnummer`)
     .leftJoin(
       tables.jaarverslagen,
-      `${tables.kmo}.ondernemingsnummer`,
+      `${tables.verslag}.id`,
       "=",
-      `${tables.jaarverslagen}.ondernemingsnummer`
+      `${tables.jaarverslagen}.verslag`
     )
-    .leftJoin(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
+    //.leftJoin(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
     .select(
       "kmo.*",
       { sector: `${tables.sector}.naam` },
-      {hoofdsector: `${tables.hoofdsector}.naam`},
+      "code","parent",
+      //{hoofdsector: `${tables.hoofdsector}.naam`},
       { gemeente: `${tables.gemeente}.naam` },
-      "hoofdsectorId",
-      "Tree",
-      "Score",
-      "Percentiel",
-      "omzetcijfer",
-      "balanstotaal",
-      "link",
-      "boekjaar"
+      //"hoofdsectorId",
+      "jaar","aantalwerknemers","omzet","balanstotaal",
+      
     )
     .whereILike(`${tables.kmo}.naam`, `%${str}%`)
     .orWhereILike(

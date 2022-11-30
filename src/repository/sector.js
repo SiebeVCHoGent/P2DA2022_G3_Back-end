@@ -12,12 +12,6 @@ const getAll = async () => {
 const bestOfSector = async (id) => {
   return await getKnex()(tables.sector)
     .join(tables.kmo, `${tables.sector}.id`, "=", `${tables.kmo}.sectorid`)
-    .leftJoin(
-      tables.coding_tree,
-      `${tables.kmo}.ondernemingsnummer`,
-      "=",
-      `${tables.coding_tree}.ondernemingsnummer`
-    )
     .join(
       tables.gemeente,
       `${tables.kmo}.postcode`,
@@ -37,9 +31,6 @@ const bestOfSector = async (id) => {
       { gemeente: `${tables.gemeente}.naam` },
       {hoofdsector : `${tables.hoofdsector}.naam`},
       "hoofdsectorId",
-      "Tree",
-      "Score",
-      "Percentiel",
       "omzetcijfer",
       "balanstotaal",
       "link",

@@ -19,7 +19,7 @@ const create = async (
       voornaam: voornaam,
       achternaam: achternaam,
       email: email,
-      wachtwoord: wachtwoordHash,
+      password: wachtwoordHash,
       roles: roles,
     });
     return await getById(id);
