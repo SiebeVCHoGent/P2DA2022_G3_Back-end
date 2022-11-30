@@ -17,6 +17,7 @@ const search = async (str) => {
       "=",
       `${tables.jaarverslagen}.verslag`
     )
+    .leftJoin(tables.website, `${tables.verslag}.id`, "=", `${tables.website}.verslag`)
     //.leftJoin(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
     .select(
       "kmo.*",
@@ -26,7 +27,8 @@ const search = async (str) => {
       { gemeente: `${tables.gemeente}.naam` },
       //"hoofdsectorId",
       "jaar","aantalwerknemers","omzet","balanstotaal",
-      
+      { jaarverslagurl: `${tables.jaarverslagen}.url` },
+      { websiteurl: `${tables.website}.url`}
     )
     .whereILike(`${tables.kmo}.naam`, `%${str}%`)
     .orWhereILike(

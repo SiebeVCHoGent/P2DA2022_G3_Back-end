@@ -10,7 +10,7 @@ const getById = async (ctx) => {
 };
 getById.validateScheme = {
   params: {
-    id: Joi.number(),
+    id: Joi.string(),
   },
 };
 
@@ -19,7 +19,7 @@ const getBest = async (ctx) => {
 };
 getBest.validateScheme = {
   params: {
-    id: Joi.number(),
+    id: Joi.string(),
   },
 };
 
