@@ -38,7 +38,7 @@ const bestOfSector = async (id) => {
       { jaarverslagurl: `${tables.jaarverslagen}.url` },
       { websiteurl: `${tables.website}.url`}
     )
-    .where("sector.code", id)
+    .where("code", id)
     //.orderBy("Score", "desc")
     .limit(10);
 };
@@ -49,9 +49,10 @@ const bestSector = async () => {
     .join(tables.sector, `${tables.sector}.code`, "=", `${tables.kmo}.sector`)
     //.leftJoin(tables.coding_tree, `${tables.kmo}.ondernemingsnummer`, "=", `${tables.coding_tree}.ondernemingsnummer`)
     //.join(tables.hoofdsector,`${tables.sector}.hoofdsectorId`,'=',`${tables.hoofdsector}.id`)
-    .select('sector',`${tables.sector}.naam`,/*getKnex().raw(`AVG(Score) as average`)*/)
-    .groupBy("sector")
+    .select(/*'sector',`${tables.sector}.naam`,getKnex().raw(`AVG(Score) as average`)*/)
+    //.groupBy("sector")
     //.orderBy(getKnex().raw('AVG(Score)'),'desc')
+    .limit(10);
 };
 
 module.exports = {

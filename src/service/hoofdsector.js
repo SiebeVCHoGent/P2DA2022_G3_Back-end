@@ -1,6 +1,7 @@
 const ServiceError = require("../core/serviceError");
 const hoofdsector = require("../repository/hoofdsector");
 const { getChildLogger } = require("../core/logging");
+const sector = require("../service/sector");
 
 const debugLog = (message, meta = {}) => {
   if (!this.logger) this.logger = getChildLogger("user-service");
@@ -21,14 +22,22 @@ const getAll = async ()=>{
 
 const getBest = async (id,limit) => {
   debugLog("Fetching best of sector");
-  const sectors = await hoofdsector.bestOfSector(id,limit);
-  if (hoofdsector.length === 0) return { kmos: null };
-  return { kmos: sectors };
+  const e = await hoofdsector.bestOfSector(id,limit);
+  if (e.length === 0) return { kmos: null };
+  for (let i=0; i<e.length; i++) {
+    if (e[i].parent !== null){
+      e[i].hoofdsector = await sector.addHoofdsector(e[i].parent)
+  }}
+  return { kmos: e };
 };
 const bestSector = async ()=>{
   debugLog('Getting best average')
-  const sectors = await hoofdsector.bestSector()
-  return {hoofdsector: sectors}
+  const e = await hoofdsector.bestSector()
+  for (let i=0; i<e.length; i++) {
+    if (e[i].parent !== null){
+      e[i].hoofdsector = await sector.addHoofdsector(e[i].parent)
+  }}
+  return {hoofdsector: e}
 }
 
 module.exports = {

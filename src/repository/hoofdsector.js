@@ -2,22 +2,22 @@ const { tables, getKnex } = require("../data");
 const { getChildLogger } = require("../core/logging");
 
 const getById = async (id) => {
-  return await getKnex()(tables.hoofdsector).select().where("id", id);
+  return await getKnex()(tables.sector).select().where("code", id);
 };
 
 const getAll = async () => {
-  return await getKnex()(tables.hoofdsector).select();
+  return await getKnex()(tables.sector).select().whereNull("parent");
 };
 
 const bestOfSector = async (id, limit = 20) => {
   return await getKnex()(tables.sector)
-    .join(tables.kmo, `${tables.sector}.id`, "=", `${tables.kmo}.sectorid`)
-    .join(
+    .join(tables.kmo, `${tables.sector}.code`, "=", `${tables.kmo}.sector`)
+    /*.join(
       tables.hoofdsector,
       `${tables.sector}.hoofdsectorId`,
       "=",
       `${tables.hoofdsector}.id`
-    )
+    )*/
     .join(
       tables.gemeente,
       `${tables.kmo}.postcode`,
@@ -25,39 +25,47 @@ const bestOfSector = async (id, limit = 20) => {
       `${tables.gemeente}.postcode`
     )
     .leftJoin(
-      tables.jaarverslagen,
+      tables.verslag,
       `${tables.kmo}.ondernemingsnummer`,
       "=",
-      `${tables.jaarverslagen}.ondernemingsnummer`
+      `${tables.verslag}.ondernemingsnummer`	
     )
+    .leftJoin(
+      tables.jaarverslagen,
+      `${tables.verslag}.id`,
+      "=",
+      `${tables.jaarverslagen}.verslag`
+    )
+    .leftJoin(tables.website, `${tables.verslag}.id`, "=", `${tables.website}.verslag`)
     .select(
-      `${tables.kmo}.*`,
+      "kmo.*",
       { sector: `${tables.sector}.naam` },
-      { hoofdsector: `${tables.hoofdsector}.naam` },
+      "code","parent",
+      //{hoofdsector: `${tables.hoofdsector}.naam`},
       { gemeente: `${tables.gemeente}.naam` },
-      "hoofdsectorId",
-      "omzetcijfer",
-      "balanstotaal",
-      "link",
-      "boekjaar"
+      //"hoofdsectorId",
+      "jaar","aantalwerknemers","omzet","balanstotaal",
+      { jaarverslagurl: `${tables.jaarverslagen}.url` },
+      { websiteurl: `${tables.website}.url`}
     )
-    .where("hoofdsectorId", id)
-    .orderBy("Score", "desc")
+    .where("parent", id)
+    //.orderBy("Score", "desc")
     .limit(limit);
 };
 
 const bestSector = async () => {
   return await getKnex()(tables.kmo)
-    .join(tables.sector, `${tables.sector}.id`, "=", `${tables.kmo}.sectorid`)
-    .join(
+    .join(tables.sector, `${tables.sector}.code`, "=", `${tables.kmo}.sector`)
+    /*.join(
       tables.hoofdsector,
       `${tables.sector}.hoofdsectorId`,
       "=",
       `${tables.hoofdsector}.id`
-    )
-    .select(`${tables.hoofdsector}.*`, getKnex().raw(`AVG(Score) as average`))
-    .groupBy("hoofdsectorId")
-    .orderBy(getKnex().raw("AVG(Score)"), "desc");
+    )*/
+    .select()
+    .limit(10)
+    //.groupBy("code")
+    //.orderBy(getKnex().raw("AVG(Score)"), "desc");
 };
 
 module.exports = {
