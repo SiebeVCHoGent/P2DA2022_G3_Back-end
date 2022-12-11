@@ -37,6 +37,7 @@ const bestOfSector = async (id, limit = 20) => {
       `${tables.jaarverslagen}.verslag`
     )
     .leftJoin(tables.website, `${tables.verslag}.id`, "=", `${tables.website}.verslag`)
+    .leftJoin(tables.zoektermscores, `${tables.verslag}.id`, "=", `${tables.zoektermscores}.verslag_id`)
     .select(
       "kmo.*",
       { sector: `${tables.sector}.naam` },
@@ -46,7 +47,8 @@ const bestOfSector = async (id, limit = 20) => {
       //"hoofdsectorId",
       "jaar","aantalwerknemers","omzet","balanstotaal",
       { jaarverslagurl: `${tables.jaarverslagen}.url` },
-      { websiteurl: `${tables.website}.url`}
+      { websiteurl: `${tables.website}.url`},
+      "website_score","jaarverslag_score","zoekterm_id"
     )
     .where("parent", id)
     //.orderBy("Score", "desc")
